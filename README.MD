@@ -7,11 +7,11 @@ This project consists in questions and answers about algorithms and complexity (
 This project has two files:
 
 ```
-+-- explanations.txt // constains explatinations about how each solution was build and an evalution of its complexity
-+-- solutions.py     // has the implementations of each algorithm, beyond its tests cases. 
++-- explanations.txt // Contains explanations about how each solution was build and an evaluation of its complexity.
++-- solutions.py     // Has the implementations of each algorithm, beyond its tests cases.
 ```
 
-Each solutions is named like question{1-5} and you can find the question at the pydoc section of each one.
+Each solutions is named like question{1-5} and you can find the question description at its pydoc section.
 
 ## How to test this project?
 
