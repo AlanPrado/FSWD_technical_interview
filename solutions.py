@@ -1,4 +1,5 @@
 import unittest
+import Queue as Q
 
 
 class CharMap:
@@ -132,6 +133,9 @@ def question2(a):
                                          self.priority,
                                          self.letter)
 
+        def __cmp__(self, other):
+            return other.priority - self.priority
+
     class WordGroups:
 
         def __init__(self, word):
@@ -139,13 +143,11 @@ def question2(a):
             self.charMap = CharMap(word)
             self.indexGroupSize = {}
             self.numWordPerLetterPair = {}
-            self.words = []
+            self.words = Q.PriorityQueue()
             self.__setGroupsSize__()
 
             for k in self.charMap.charIndices:
                 self.__pushWordsPairLetterPair__(k)
-
-            self.words.sort(self.__sortByPriority__)
 
         def __setGroupsSize__(self):
             for k in self.charMap.charIndices:
@@ -160,9 +162,6 @@ def question2(a):
 
             return size
 
-        def __sortByPriority__(self, word1, word2):
-            return word1.priority - word2.priority
-
         def __pushWordsPairLetterPair__(self, letter):
             newSize = self.__decrementGroupSize__(letter)
             values = self.charMap.values(letter)
@@ -171,22 +170,21 @@ def question2(a):
                 for i in range(self.charMap.count(letter) - newSize + 1):
                     lowerBound = values[i]
                     upperBound = values[i + newSize - 1]
-                    self.words.append(Word(lowerBound, upperBound, letter))
+                    self.words.put(Word(lowerBound, upperBound, letter))
             else:
-                self.words.append(Word(values[0], values[0], letter))
+                self.words.put(Word(values[0], values[0], letter))
 
         def popWord(self):
-            word = self.words.pop()
+            word = self.words.get()
             self.numWordPerLetterPair[word.letter] -= 1
             return word
 
         def hasMoreWords(self):
-            return len(self.words) != 0
+            return not self.words.empty()
 
         def refreshWordList(self, letter):
             if self.numWordPerLetterPair[letter] == 0:
                 self.__pushWordsPairLetterPair__(letter)
-                self.words.sort(self.__sortByPriority__)
 
     groups = WordGroups(a)
 
@@ -373,7 +371,7 @@ class TestQuestions(unittest.TestCase):
         self.assertEquals(question2("abbcccbba"), "abbcccbba")
         self.assertEquals(question2("abbccbba"), "abbccbba")
         self.assertEquals(question2("abbcba"), "bcb")
-        self.assertEquals(question2("xabcdefax"), "a")
+        self.assertEquals(len(question2("xabcdefax")), 1)
         self.assertEquals(question2("a"), "a")
 
     def test_question3_should_pass(self):
