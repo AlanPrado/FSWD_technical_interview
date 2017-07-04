@@ -5,8 +5,9 @@ import Queue as Q
 class CharMap:
     """Index word by letters."""
 
-    def __init__(self, word):
+    def __init__(self, word, supressIndices=False):
         """Initialize char map."""
+        self.supressIndices = supressIndices
         self.charIndices = {}
         self.__loadIndices__(word)
 
@@ -16,28 +17,46 @@ class CharMap:
 
         Creates a dictonary from a word where
         each letter is the key and the value is
-        a list of its indices.
+        a list of its indices or the number of letter of each indice
+        depending on the status of supressIndices field.
 
         For exemple,
         Given the word 'test'
-        Our dictonary should store the following structure
-        {
-          't': [0, 3],
-          'e': [1],
-          's': [2]
-        }
+        Our dictonary should store the following structure:
+         if supressIndices is False
+            {
+              't': [0, 3],
+              'e': [1],
+              's': [2]
+            }
+         if supressIndices is True
+            {
+              't': 2,
+              'e': 1,
+              's': 1
+            }
         """
+        def withIndices(letter, index):
+            if letter in self.charIndices:
+                self.charIndices[letter].append(index)
+            else:
+                self.charIndices[letter] = [index]
+
+        def withoutIndices(letter, index):
+            hasKey = letter in self.charIndices
+            cnt = self.charIndices[letter] + 1 if hasKey else 1
+            self.charIndices[letter] = cnt
+
+        storeLetters = withoutIndices if self.supressIndices else withIndices
+
         for i in range(len(word)):
             letter = word[i]
-
-            if letter in self.charIndices:
-                self.charIndices[letter].append(i)
-            else:
-                self.charIndices[letter] = [i]
+            storeLetters(letter, i)
 
     def count(self, letter):
         """Return number of indices for a given letter."""
-        return len(self.charIndices[letter])
+        values = self.values(letter)
+        return values if self.supressIndices else len(values)
 
     def values(self, letter):
         """Return the indices for a given letter."""
@@ -76,8 +95,8 @@ def question1(s, t):
     return a boolean True or False.
     """
     if s and t:
-        map1 = CharMap(s)
-        map2 = CharMap(t)
+        map1 = CharMap(s, True)
+        map2 = CharMap(t, True)
 
         for k in map2.charIndices:
             if not map1.hasLetter(k) or map1.count(k) < map2.count(k):
@@ -437,6 +456,7 @@ class TestQuestions(unittest.TestCase):
                                     3,
                                     1,
                                     5), 4)
+        # TODO: add new test case
 
     def test_question5_edge_cases(self):
         """Test question 5 - edge cases."""

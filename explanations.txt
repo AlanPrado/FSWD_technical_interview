@@ -1,49 +1,48 @@
-Project Submission
-
-For this project, you will be given five technical interviewing questions on a
-variety of topics discussed in the technical interviewing course.
-
-You should write up a clean and efficient answer in Python, as well as a text
-explanation of the efficiency of your code and your design choices.
-
-A qualified reviewer will look over your answer and give you feedback on
-anything that might be awesome or lacking—is your solution the most efficient
-one possible?
-
-Are you doing a good job of explaining your thoughts?
-
-Is your code elegant and easy to read?
-
-Submission Instructions
-For each question, create a solution in Python (version 2). All solutions
-should be functions named as “question1”, “question2”, et cetera.
-
-Feel free to make additional helper functions or classes as needed.
-
-Code solutions must be in a file called "solutions.py".
-
-In the same .py file, include at least 3 test cases for each solution.
-
-For each test case, write the function call with the input you want to test and
-print it to the console, like "print question1()".
-On the next line, comment out the output you expect to see from that function
-call. At least 2 of these must be edge cases, testing inputs such as null
-values, empty inputs, unusually large values, et cetera.
-
-Write up an explanation for each question in a single separate text file
-(called "explanations.txt").
-
-Your paragraph should not be a detailed walkthrough of the code you provided,
-but provide your reasoning behind decisions made in the code.
-
-For example, why did you use that data structure?
-You also need to explain the efficiency (time and space) of your solution.
-Compress your one Python and one text file into a .zip, and submit.
-
-Evaluation
-
-Check out the rubric here!
-
 # Question 1
 
-All letter in the second string two must be contained by the
+For a word n be an anagram of m word, all the letters in n should be contained
+in m.
+
+For example,
+    m: "aaab"
+    n: "aab"
+
+Note that the amount of letters "a" from n should have less or equal the amount
+of letter "a" from m.
+
+To solve this problem we can count the frequency of each letter from the words
+and verify if satisfy the both criteria explained above.
+
+For improve the letter search performance, we can make use of a dictionary.
+
+Step 1 : Counting letter frequency
+m: { a: 3, b: 1 } and n: { a: 2, b: 1 }
+
+Step 2 : Comparison
+n['a'] <= m['a'] and n['b'] <= m['b']
+
+Thus, n is an anagram of m.
+
+# Complexity
+
+## Time Complexity
+
+____________| Worst _________| Average ________| Better _________
+Step 1      | n + n          | n + n / 2       | n + 1
+Step 2      | 1              | 13              | 26
+Total       | O(2n) + O(1)   | O(1.5n) + O(13) | O(n + 1) + O(26)
+O           | O(n)           | O(n)            | O(n)
+
+
+Step 1: Counting letter frequency
+Step 2: Comparison - Assuming that we have 26 letters at most, but the
+important aspect is that we have a constant amount letter depending on charset.
+
+## Space Complexity
+
+____________| Worst _________| Average ________| Better _________
+Step 1      | 2 * (26 + 26)  | 2 * (13 + 13)   | 2 * (1 + 1)
+Total       | O(104)         | O(52)           | O(4)
+O           | O(1)           | O(1)            | O(1)
+
+Step 1: Counting letter frequency
