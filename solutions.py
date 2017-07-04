@@ -58,6 +58,9 @@ class Node(object):
         self.data = data
         self.next = None
 
+    def __repr__(self):
+        return '(%s)' % (self.data)
+
 
 def question1(s, t):
     """
@@ -147,7 +150,7 @@ def question2(a):
             self.__setGroupsSize__()
 
             for k in self.charMap.charIndices:
-                self.__pushWordsPairLetterPair__(k)
+                self.__calculateWordsFromLetterPair__(k)
 
         def __setGroupsSize__(self):
             for k in self.charMap.charIndices:
@@ -162,7 +165,7 @@ def question2(a):
 
             return size
 
-        def __pushWordsPairLetterPair__(self, letter):
+        def __calculateWordsFromLetterPair__(self, letter):
             newSize = self.__decrementGroupSize__(letter)
             values = self.charMap.values(letter)
 
@@ -184,7 +187,7 @@ def question2(a):
 
         def refreshWordList(self, letter):
             if self.numWordPerLetterPair[letter] == 0:
-                self.__pushWordsPairLetterPair__(letter)
+                self.__calculateWordsFromLetterPair__(letter)
 
     groups = WordGroups(a)
 
@@ -333,10 +336,13 @@ def question5(ll, m):
     nextNode = ll
 
     while nextNode:
+        if len(list) == m:
+            list.pop(0)
+
         list.append(nextNode)
         nextNode = nextNode.next
 
-    return list[-m].data if len(list) > m else -1
+    return list[-m].data if len(list) >= m else -1
 
 
 class TestQuestions(unittest.TestCase):
