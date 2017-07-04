@@ -238,9 +238,9 @@ def question3(G):
             'C': [('B', 5)]
         }
 
-        Vertices are represented as unique strings.
+    Vertices are represented as unique strings.
 
-        The function definition should be question3(G)
+    The function definition should be question3(G)
     """
     pass
 
@@ -414,26 +414,26 @@ class TestQuestions(unittest.TestCase):
                                     1,
                                     4), None)
         self.assertEquals(question4([[0, 1, 0, 0, 0],
-                                    [0, 0, 0, 0, 0],
-                                    [0, 0, 0, 0, 0],
-                                    [1, 0, 0, 0, 1],
-                                    [0, 0, 0, 0, 0]],
+                                     [0, 0, 0, 0, 0],
+                                     [0, 0, 0, 0, 0],
+                                     [1, 0, 0, 0, 1],
+                                     [0, 0, 0, 0, 0]],
                                     None,
                                     1,
                                     4), None)
         self.assertEquals(question4([[0, 1, 0, 0, 0],
-                                    [0, 0, 0, 0, 0],
-                                    [0, 0, 0, 0, 0],
-                                    [1, 0, 0, 0, 1],
-                                    [0, 0, 0, 0, 0]],
+                                     [0, 0, 0, 0, 0],
+                                     [0, 0, 0, 0, 0],
+                                     [1, 0, 0, 0, 1],
+                                     [0, 0, 0, 0, 0]],
                                     3,
                                     None,
                                     4), None)
         self.assertEquals(question4([[0, 1, 0, 0, 0],
-                                    [0, 0, 0, 0, 0],
-                                    [0, 0, 0, 0, 0],
-                                    [1, 0, 0, 0, 1],
-                                    [0, 0, 0, 0, 0]],
+                                     [0, 0, 0, 0, 0],
+                                     [0, 0, 0, 0, 0],
+                                     [1, 0, 0, 0, 1],
+                                     [0, 0, 0, 0, 0]],
                                     3,
                                     1,
                                     None), None)
@@ -441,22 +441,31 @@ class TestQuestions(unittest.TestCase):
     def test_question4(self):
         """Test question 4."""
         self.assertEquals(question4([[0, 1, 0, 0, 0],
-                                    [0, 0, 0, 0, 0],
-                                    [0, 0, 0, 0, 0],
-                                    [1, 0, 0, 0, 1],
-                                    [0, 0, 0, 0, 0]],
+                                     [0, 0, 0, 0, 0],
+                                     [0, 0, 0, 0, 0],
+                                     [1, 0, 0, 0, 1],
+                                     [0, 0, 0, 0, 0]],
                                     3,
                                     1,
                                     4), 3)
         self.assertEquals(question4([[0, 1, 0, 0, 0],
-                                    [0, 0, 0, 0, 0],
-                                    [0, 0, 0, 0, 0],
-                                    [1, 0, 0, 0, 1],
-                                    [0, 0, 0, 0, 0]],
+                                     [0, 0, 0, 0, 0],
+                                     [0, 0, 0, 0, 0],
+                                     [1, 0, 0, 0, 1],
+                                     [0, 0, 0, 0, 0]],
                                     3,
                                     1,
                                     5), 4)
-        # TODO: add new test case
+        self.assertEquals(question4([[0, 1, 1, 0, 0, 0, 0],
+                                     [0, 0, 0, 1, 1, 0, 0],
+                                     [0, 0, 0, 0, 0, 0, 0],
+                                     [0, 0, 0, 0, 0, 0, 0],
+                                     [0, 0, 0, 0, 0, 1, 1],
+                                     [0, 0, 0, 0, 0, 0, 0],
+                                     [0, 0, 0, 0, 0, 0, 0]],
+                                    1,
+                                    6,
+                                    7), 5)
 
     def test_question5_edge_cases(self):
         """Test question 5 - edge cases."""

@@ -23,8 +23,6 @@ n['a'] <= m['a'] and n['b'] <= m['b']
 
 Thus, n is an anagram of m.
 
-# Complexity
-
 ## Time Complexity
 
 ____________| Worst _________| Average ________| Better _________
@@ -46,3 +44,5 @@ Total       | O(104)         | O(52)           | O(4)
 O           | O(1)           | O(1)            | O(1)
 
 Step 1: Counting letter frequency
+
+# Question 2
