@@ -305,22 +305,28 @@ def question4(T, r, n1, n2):
         cacheParent[column] = root
         return root
 
-    def findPathToRoot(startNode, indexed=False):
+    def findPath(startNode, stopCallBack, indexed=False):
+        """Find a path to root or if stopCallBack is evalute to True"""
         path = set() if indexed else []
         parent = startNode
 
-        while (parent != root):
+        while parent != root:
+
             parent = findParent(parent)
             if indexed:
                 path.add(parent)
             else:
                 path.append(parent)
 
+            # stop when find a common node
+            if stopCallBack and stopCallBack(parent):
+                break
+
         return path
 
     def findFarthestNode():
-        pathN1 = findPathToRoot(node1, True)
-        pathN2 = findPathToRoot(node2)
+        pathN1 = findPath(node1, None, True)
+        pathN2 = findPath(node2, lambda node: node in pathN1)
 
         for node in pathN2:
             if node in pathN1:
