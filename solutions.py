@@ -306,7 +306,7 @@ def question4(T, r, n1, n2):
         return root
 
     def findPath(startNode, stopCallBack, indexed=False):
-        """Find a path to root or if stopCallBack is evalute to True"""
+        """Find a path to root or if stopCallBack is evalute to True."""
         path = set() if indexed else []
         parent = startNode
 
