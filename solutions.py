@@ -278,18 +278,15 @@ def question4(T, r, n1, n2):
     and the answer would be 3.
 
     """
-    if not (T and r and n1 and n2):
+    if T is None or r is None or n1 is None or n2 is None:
         return None
 
-    if r <= 0 or n1 <= 0 or n2 <= 0:
+    if r < 0 or n1 < 0 or n2 < 0:
         return None
 
     if len(T) < max(n1, n2, r) or len(T[0]) < max(n1, n2, r):
         return None
 
-    root = r - 1
-    node1 = n1 - 1
-    node2 = n2 - 1
     cacheParent = {}
 
     def findParent(column):
@@ -302,15 +299,15 @@ def question4(T, r, n1, n2):
                 return row
 
         # if don't find any parent, the parent should be the root
-        cacheParent[column] = root
-        return root
+        cacheParent[column] = r
+        return r
 
     def findPath(startNode, stopCallBack, indexed=False):
         """Find a path to root or if stopCallBack is evalute to True."""
         path = set() if indexed else []
         parent = startNode
 
-        while parent != root:
+        while parent != r:
 
             parent = findParent(parent)
             if indexed:
@@ -325,14 +322,14 @@ def question4(T, r, n1, n2):
         return path
 
     def findFarthestNode():
-        pathN1 = findPath(node1, None, True)
-        pathN2 = findPath(node2, lambda node: node in pathN1)
+        pathN1 = findPath(n1, None, True)
+        pathN2 = findPath(n2, lambda node: node in pathN1)
 
         for node in pathN2:
             if node in pathN1:
                 return node
 
-    return findFarthestNode() + 1
+    return findFarthestNode()
 
 
 def question5(ll, m):
@@ -457,24 +454,24 @@ class TestQuestions(unittest.TestCase):
                                     3,
                                     1,
                                     4), 3)
-        self.assertEquals(question4([[0, 1, 0, 0, 0],
+        self.assertEquals(question4([[0, 1, 1, 0, 0],
                                      [0, 0, 0, 0, 0],
                                      [0, 0, 0, 0, 0],
                                      [1, 0, 0, 0, 1],
                                      [0, 0, 0, 0, 0]],
                                     3,
                                     1,
-                                    5), 4)
-        self.assertEquals(question4([[0, 1, 1, 0, 0, 0, 0],
-                                     [0, 0, 0, 1, 1, 0, 0],
-                                     [0, 0, 0, 0, 0, 0, 0],
-                                     [0, 0, 0, 0, 0, 0, 0],
-                                     [0, 0, 0, 0, 0, 1, 1],
-                                     [0, 0, 0, 0, 0, 0, 0],
+                                    2), 0)
+        self.assertEquals(question4([[0, 1, 0, 0, 0, 0, 0],
+                                     [0, 0, 1, 0, 0, 0, 0],
+                                     [0, 0, 0, 1, 0, 0, 0],
+                                     [0, 0, 0, 0, 1, 0, 0],
+                                     [0, 0, 0, 0, 0, 1, 0],
+                                     [0, 0, 0, 0, 0, 0, 1],
                                      [0, 0, 0, 0, 0, 0, 0]],
-                                    1,
-                                    6,
-                                    7), 5)
+                                    0,
+                                    5,
+                                    6), 4)
 
     def test_question5_edge_cases(self):
         """Test question 5 - edge cases."""
