@@ -288,14 +288,23 @@ def question4(T, r, n1, n2):
         return None
 
     cacheParent = {}
+    availableNodes = range(len(T))
+    firstChild = set()
 
     def findParent(column):
         if column in cacheParent:
             return cacheParent[column]
 
-        for row in range(len(T)):
+        for row in availableNodes:
             if T[row][column] == 1:
                 cacheParent[column] = row
+
+                if row in firstChild:
+                    # BST nodes have at most two children
+                    availableNodes.remove(row)
+                else:
+                    firstChild.add(row)
+
                 return row
 
     def findPath(startNode, stopCallBack, indexed=False):
