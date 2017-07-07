@@ -288,7 +288,7 @@ def question4(T, r, n1, n2):
         return None
 
     cacheParent = {}
-    availableNodes = range(len(T))
+    availableNodes = set(range(len(T)))
     firstChild = set()
 
     def findParent(column):
