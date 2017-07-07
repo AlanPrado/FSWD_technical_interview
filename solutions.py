@@ -287,37 +287,24 @@ def question4(T, r, n1, n2):
     if len(T) < max(n1, n2, r) or len(T[0]) < max(n1, n2, r):
         return None
 
-    cacheParent = {}
-    availableNodes = set(range(len(T)))
-    firstChild = set()
+    availableNodes = range(len(T))
 
     def findParent(column):
-        if column in cacheParent:
-            return cacheParent[column]
-
         for row in availableNodes:
             if T[row][column] == 1:
-                cacheParent[column] = row
-
-                if row in firstChild:
-                    # BST nodes have at most two children
-                    availableNodes.remove(row)
-                else:
-                    firstChild.add(row)
-
                 return row
 
         raise Exception("Node %s does not make part of the tree" % column)
 
-    def findPath(startNode, stopCallBack, indexed=False):
+    def findAncestors(startNode, stopCallBack, unordered=False):
         """Find a path to root or if stopCallBack is evalute to True."""
-        path = set() if indexed else []
+        path = set() if unordered else []
         parent = startNode
 
         while parent != r:
 
             parent = findParent(parent)
-            if indexed:
+            if unordered:
                 path.add(parent)
             else:
                 path.append(parent)
@@ -329,12 +316,10 @@ def question4(T, r, n1, n2):
         return path
 
     def findFarthestNode():
-        pathN1 = findPath(n1, None, True)
-        pathN2 = findPath(n2, lambda node: node in pathN1)
+        ancestorN1 = findAncestors(n1, None, True)
+        ancestorN2 = findAncestors(n2, lambda node: node in ancestorN1)
 
-        for node in pathN2:
-            if node in pathN1:
-                return node
+        return ancestorN2.pop()
 
     return findFarthestNode()
 
