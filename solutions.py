@@ -298,10 +298,6 @@ def question4(T, r, n1, n2):
                 cacheParent[column] = row
                 return row
 
-        # if don't find any parent, the parent should be the root
-        cacheParent[column] = r
-        return r
-
     def findPath(startNode, stopCallBack, indexed=False):
         """Find a path to root or if stopCallBack is evalute to True."""
         path = set() if indexed else []
