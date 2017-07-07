@@ -307,6 +307,8 @@ def question4(T, r, n1, n2):
 
                 return row
 
+        raise Exception("Node %s does not make part of the tree" % column)
+
     def findPath(startNode, stopCallBack, indexed=False):
         """Find a path to root or if stopCallBack is evalute to True."""
         path = set() if indexed else []
