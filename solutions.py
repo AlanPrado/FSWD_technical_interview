@@ -1,6 +1,6 @@
 import unittest
-import Queue as Q
-
+import Queue
+from collections import deque
 
 class CharMap:
     """Index word by letters."""
@@ -165,7 +165,7 @@ def question2(a):
             self.charMap = CharMap(word)
             self.indexGroupSize = {}
             self.numWordPerLetterPair = {}
-            self.words = Q.PriorityQueue()
+            self.words = Queue.PriorityQueue()
             self.__setGroupsSize__()
 
             for k in self.charMap.charIndices:
@@ -328,8 +328,7 @@ def question5(ll, m):
     """
     Question 5.
 
-    Find the element in a singly linked list that's m elements from the
-    end.
+    Find the element in a singly linked list that's m elements from the end.
 
     For example, if a linked list has 5 elements, the 3rd element from the
     end is the 3rd element. The function definition should look like
@@ -349,17 +348,14 @@ def question5(ll, m):
     if not (ll and m):
         return None
 
-    list = []
+    dq = deque(maxlen=m)
     nextNode = ll
 
     while nextNode:
-        if len(list) == m:
-            list.pop(0)
-
-        list.append(nextNode)
+        dq.append(nextNode)
         nextNode = nextNode.next
 
-    return list[-m].data if len(list) >= m else -1
+    return dq.popleft().data if len(dq) >= m else None
 
 
 class TestQuestions(unittest.TestCase):
@@ -481,7 +477,9 @@ class TestQuestions(unittest.TestCase):
         self.assertEquals(question5(head, 2), 'D')
         head.next.next.next.next.next = Node('F')
         self.assertEquals(question5(head, 2), 'E')
-        self.assertEquals(question5(head, 10), -1)
+        self.assertEquals(question5(head, 6), 'A')
+        self.assertEquals(question5(head, 1), 'F')
+        self.assertEquals(question5(head, 10), None)
 
 
 if __name__ == '__main__':
