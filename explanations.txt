@@ -105,3 +105,39 @@ availableNodes  | n                 | n                     | n
 ancestorN1      | n - 1             | floor(n / 2)          | 1
 ancestorN2      | 1                 | floor(n / 2)          | 1
 O               | O(n)              | O(n)                  | O(n)
+
+# Question 5
+
+To find mth element from the end of the linked list, we need to navigate
+through all the nodes until find last node keeping track of last m nodes.
+Finally, pop the left element if the queue has at list m elements.
+
+* Step 1: Traverse all nodes
+
+To accomplish this task we just need to append the node in an double-ended queue
+(deque) and navigate to the next node exists while it exists.
+
+## Complexity
+
+Worst case: m = n
+Average case: m = log(n)
+Average case: m = 1
+
+## Time Complexity
+
+_______| Worst ____________ | Average ____________ | Better ____________
+Step 1 | n * n + 1          | n * (log(n) * 2) + 1 | 1 + 1
+O      | O(n^2)             | O(n * log(n))        | O(1)
+
+Step 1: As long as "append", "popleft" and "pop" are performed in constant time
+(https://wiki.python.org/moin/TimeComplexity), this step would happen in
+constant time, except for the fact that all nodes should be traversed.
+
+## Space Complexity
+
+_______| Worst ____________ | Average ____________ | Better ____________
+Step 1 | n                  | log(n)               | 1
+O      | O(n)               | O(log(n))            | O(1)
+
+It's important to set the maxlen property of the deque to m in order to save
+space.

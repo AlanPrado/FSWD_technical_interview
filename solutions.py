@@ -2,6 +2,7 @@ import unittest
 import Queue
 from collections import deque
 
+
 class CharMap:
     """Index word by letters."""
 
