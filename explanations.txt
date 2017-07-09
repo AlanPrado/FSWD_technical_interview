@@ -45,6 +45,8 @@ O           | O(1)           | O(1)            | O(1)
 
 # Question 2
 
+# Question 3
+
 # Question 4
 
 To find the least common ancestor between two nodes, just navigate in each node

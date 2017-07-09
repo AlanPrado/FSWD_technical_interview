@@ -1,6 +1,7 @@
 import unittest
 import Queue
 from collections import deque
+import sys
 
 
 class CharMap:
@@ -242,8 +243,62 @@ def question3(G):
     Vertices are represented as unique strings.
 
     The function definition should be question3(G)
+
+    External resources:
+        - https://en.wikipedia.org/wiki/Minimum_spanning_tree;
+        - https://en.wikipedia.org/wiki/Prim%27s_algorithm;
+        - https://www.youtube.com/watch?v=z1L3rMzG1_A.
     """
-    pass
+    if not (G and len(G)):
+        return None
+
+    parents = {}
+    weightPerVertex = {}
+
+    def addElement(dict, key, value):
+        list = dict[key] if key in dict else []
+        list.append(value)
+        dict[key] = list
+
+    def findMinWeight():
+        minValue = min(weightPerVertex.values())
+
+        for vertex in weightPerVertex:
+            if weightPerVertex[vertex] == minValue:
+                Q.remove(vertex)
+                del weightPerVertex[vertex]
+                return vertex, minValue
+
+    def visitNextVertex(otherVertex, weight):
+        hasKey = otherVertex in weightPerVertex
+        if hasKey and weightPerVertex[otherVertex] > weight:
+            parents[otherVertex] = vertex
+            weightPerVertex[otherVertex] = weight
+
+    F = {}
+    Q = set(G.keys())
+
+    for vertex in G:
+        weightPerVertex[vertex] = sys.maxint
+        parents[vertex] = None
+
+    for vertex in G:
+        weightPerVertex[vertex] = 0
+        break
+
+    while len(Q) > 0:
+        vertex, weight = findMinWeight()
+
+        if parents[vertex] is not None:
+            parent = parents[vertex]
+
+            addElement(F, parent, (vertex, weight))
+            addElement(F, vertex, (parent, weight))
+
+        for edge in G[vertex]:
+            visitNextVertex(edge[0], edge[1])
+
+    return F
 
 
 def question4(T, r, n1, n2):
@@ -394,9 +449,46 @@ class TestQuestions(unittest.TestCase):
         self.assertEquals(len(question2("xabcdefax")), 1)
         self.assertEquals(question2("a"), "a")
 
+    def test_question3_edge_cases(self):
+        """Test question 3 - edge cases."""
+        self.assertEquals(question3(None), None)
+        self.assertEquals(question3({}), None)
+
     def test_question3_should_pass(self):
         """Test question 3."""
-        pass
+        A = {
+            'A': [('B', 2)],
+            'B': [('A', 2), ('C', 5)],
+            'C': [('B', 5)]
+        }
+
+        B = {
+            'A': [('B', 7), ('D', 5)],
+            'B': [('A', 7), ('C', 8), ('D', 9), ('E', 7)],
+            'C': [('B', 8), ('E', 5)],
+            'D': [('A', 5), ('B', 9), ('E', 15), ('F', 6)],
+            'E': [('B', 7), ('C', 5), ('D', 15), ('F', 8), ('G', 9)],
+            'F': [('D', 6), ('E', 8), ('G', 11)],
+            'G': [('E', 9), ('F', 11)]
+        }
+
+        C = {
+            'A': [('B', 7), ('D', 5)],
+            'B': [('A', 7), ('E', 7)],
+            'C': [('E', 5)],
+            'D': [('A', 5), ('F', 6)],
+            'E': [('B', 7), ('C', 5), ('G', 9)],
+            'F': [('D', 6)],
+            'G': [('E', 9)]
+        }
+
+        def sortResult(Q):
+            for q in Q:
+                Q[q].sort()
+            return Q
+
+        self.assertEquals(question3(A), A)
+        self.assertEquals(sortResult(question3(B)), C)
 
     def test_question4_edge_case(self):
         """Test question 4."""
