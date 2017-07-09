@@ -255,13 +255,17 @@ def question3(G):
     parents = {}
     weightPerVertex = {}
     verticesPerWeight = {}
+    weights = Queue.PriorityQueue()
     F = {}
     Q = set(G.keys())
 
-    def addElement(dict, key, value):
-        list = dict[key] if key in dict else []
-        list.append(value)
-        dict[key] = list
+    def addElement(dict, key, value, collectionType=list):
+        c = dict[key] if key in dict else collectionType()
+        if collectionType == set:
+            c.add(value)
+        else:
+            c.append(value)
+        dict[key] = c
 
     def addAdjList(vertex, otherVertex):
         addElement(F, otherVertex, (vertex, weight))
@@ -271,24 +275,31 @@ def question3(G):
         oldWeight = weightPerVertex[vertex]
         del weightPerVertex[vertex]
 
-        list = verticesPerWeight[oldWeight]
-        list.remove(vertex)
-        if len(list) == 0:
+        c = verticesPerWeight[oldWeight]
+        c.remove(vertex)
+        if len(c) == 0:
             del verticesPerWeight[oldWeight]
 
     def addWeight(vertex, newWeight):
         weightPerVertex[vertex] = newWeight
-        addElement(verticesPerWeight, newWeight, vertex)
+        addElement(verticesPerWeight, newWeight, vertex, set)
+        weights.put(newWeight)
 
     def updateWeight(vertex, newWeight):
         removeWeight(vertex)
         addWeight(vertex, newWeight)
 
     def findMinWeight():
-        minValue = min(verticesPerWeight.keys())
-        vertex = verticesPerWeight[minValue][0]
-        removeWeight(vertex)
-        return vertex, minValue
+        minValue = None
+        while not weights.empty():
+            m = weights.get()
+            if m in verticesPerWeight:
+                minValue = m
+                break
+
+        for vertex in verticesPerWeight[minValue]:
+            removeWeight(vertex)
+            return vertex, minValue
 
     def visitNextVertex(otherVertex, weight):
         hasKey = otherVertex in weightPerVertex
