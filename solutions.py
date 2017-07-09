@@ -254,46 +254,71 @@ def question3(G):
 
     parents = {}
     weightPerVertex = {}
+    verticesPerWeight = {}
+    F = {}
+    Q = set(G.keys())
 
     def addElement(dict, key, value):
         list = dict[key] if key in dict else []
         list.append(value)
         dict[key] = list
 
-    def findMinWeight():
-        minValue = min(weightPerVertex.values())
+    def addAdjList(vertex, otherVertex):
+        addElement(F, otherVertex, (vertex, weight))
+        addElement(F, vertex, (otherVertex, weight))
 
-        for vertex in weightPerVertex:
-            if weightPerVertex[vertex] == minValue:
-                Q.remove(vertex)
-                del weightPerVertex[vertex]
-                return vertex, minValue
+    def removeWeight(vertex):
+        oldWeight = weightPerVertex[vertex]
+        del weightPerVertex[vertex]
+
+        list = verticesPerWeight[oldWeight]
+        list.remove(vertex)
+        if len(list) == 0:
+            del verticesPerWeight[oldWeight]
+
+    def addWeight(vertex, newWeight):
+        weightPerVertex[vertex] = newWeight
+        addElement(verticesPerWeight, newWeight, vertex)
+
+    def updateWeight(vertex, newWeight):
+        removeWeight(vertex)
+        addWeight(vertex, newWeight)
+
+    def findMinWeight():
+        minValue = min(verticesPerWeight.keys())
+        vertex = verticesPerWeight[minValue][0]
+        removeWeight(vertex)
+        return vertex, minValue
 
     def visitNextVertex(otherVertex, weight):
         hasKey = otherVertex in weightPerVertex
         if hasKey and weightPerVertex[otherVertex] > weight:
             parents[otherVertex] = vertex
-            weightPerVertex[otherVertex] = weight
+            updateWeight(otherVertex, weight)
 
-    F = {}
-    Q = set(G.keys())
+    def init():
+        # set all parents to None and weights to sys.maxint
+        for vertex in G:
+            parents[vertex] = None
+            addWeight(vertex, sys.maxint)
 
-    for vertex in G:
-        weightPerVertex[vertex] = sys.maxint
-        parents[vertex] = None
+        # set root
+        for vertex in G:
+            updateWeight(vertex, 0)
+            break
 
-    for vertex in G:
-        weightPerVertex[vertex] = 0
-        break
+    init()
 
     while len(Q) > 0:
+        # find the nearest node
         vertex, weight = findMinWeight()
 
-        if parents[vertex] is not None:
-            parent = parents[vertex]
+        # mark the vertex as visited
+        Q.remove(vertex)
 
-            addElement(F, parent, (vertex, weight))
-            addElement(F, vertex, (parent, weight))
+        parent = parents[vertex]
+        if parent is not None:
+            addAdjList(vertex, parent)
 
         for edge in G[vertex]:
             visitNextVertex(edge[0], edge[1])
