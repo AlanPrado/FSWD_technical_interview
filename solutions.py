@@ -482,6 +482,29 @@ class TestQuestions(unittest.TestCase):
             'G': [('E', 9)]
         }
 
+        D = {
+            'A': [('B', 1), ('C', 2), ('D', 1), ('E', 2),
+                  ('F', 1), ('G', 2), ('H', 1)],
+            'B': [('A', 1), ('C', 2), ('H', 1)],
+            'C': [('A', 2), ('B', 2), ('D', 1)],
+            'D': [('A', 1), ('C', 1), ('E', 2)],
+            'E': [('A', 2), ('D', 2), ('F', 1)],
+            'F': [('A', 1), ('E', 1), ('G', 2)],
+            'G': [('A', 2), ('F', 2), ('H', 1)],
+            'H': [('A', 1), ('B', 1), ('G', 1)]
+        }
+
+        E = {
+            'A': [('B', 1), ('D', 1), ('F', 1), ('H', 1)],
+            'B': [('A', 1)],
+            'C': [('D', 1)],
+            'D': [('A', 1), ('C', 1)],
+            'E': [('F', 1)],
+            'F': [('A', 1), ('E', 1)],
+            'G': [('H', 1)],
+            'H': [('A', 1), ('G', 1)]
+        }
+
         def sortResult(Q):
             for q in Q:
                 Q[q].sort()
@@ -489,6 +512,7 @@ class TestQuestions(unittest.TestCase):
 
         self.assertEquals(question3(A), A)
         self.assertEquals(sortResult(question3(B)), C)
+        self.assertEquals(sortResult(question3(D)), E)
 
     def test_question4_edge_case(self):
         """Test question 4."""
