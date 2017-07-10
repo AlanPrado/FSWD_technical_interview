@@ -32,11 +32,11 @@ Consider that n is length m.
 
 Worst case: when len(n) = len(m)
 Average case: len(n) / 2 = len(m)
-Average case: len(n) = len(m) = 1
+Best case: len(n) = len(m) = 1
 
 ## Time Complexity
 
-____________| Worst _________| Average ________| Better _________
+____________| Worst _________| Average ________| Best _________
 Step 1      | n + n          | n + n / 2       | 1 + 1
 Step 2      | 1              | 13              | 26
 O           | O(n)           | O(n)            | O(1)
@@ -46,7 +46,7 @@ important aspect is that we have a constant amount letter depending on charset.
 
 ## Space Complexity
 
-____________| Worst _________| Average ________| Better _________
+____________| Worst _________| Average ________| Best _________
 Step 1      | 2 * (26 + 26)  | 2 * (13 + 13)   | 2 * (1 + 1)
 O           | O(1)           | O(1)            | O(1)
 
@@ -154,7 +154,7 @@ Consider that n is TODO.
 
 Worst case: TODO
 Average case: TODO
-Average case: TODO
+Best case: TODO
 
 ## Time Complexity
 
@@ -220,22 +220,22 @@ ancestor of n2.
 
 ## Complexity
 
-Consider that n is TODO.
+Consider that n is number of nodes in the matrix.
 
-Worst case: TODO
-Average case: TODO
-Average case: TODO
+Worst case: n = n
+Average case: n = floor(n / 2)
+Best case: n = 3
 
 ## Time Complexity
 
-______________| Worst _______________ | Average ___________________________________ | Better _________
+______________| Worst _______________ | Average ___________________________________ | Best _________
 Step 1, Step2 | (n * (n + 1)) / 2 + 1 | (floor(n / 2) * (floor(n / 2) + 1)) / 2 + 1 | 2
 Step 3        | n + 2                 | floor(n / 2) * 2 + 1                        | 3
 O             | O(n^2)                | O(n^2)                                      | O(1)
 
 ## Space Complexity
 
-________________| Worst ___________ | Average _____________ | Better _________
+________________| Worst ___________ | Average _____________ | Best _________
 availableNodes  | n                 | n                     | n
 ancestorN1      | n - 1             | floor(n / 2)          | 1
 ancestorN2      | 1                 | floor(n / 2)          | 1
@@ -258,11 +258,11 @@ Consider that n is number of nodes.
 
 Worst case: m = n
 Average case: m = log(n)
-Average case: m = 1
+Best case: m = 1
 
 ## Time Complexity
 
-_______| Worst ____________ | Average ____________ | Better ____________
+_______| Worst ____________ | Average ____________ | Best ____________
 Step 1 | n * n + 1          | n * (log(n) * 2) + 1 | 1 + 1
 O      | O(n^2)             | O(n * log(n))        | O(1)
 
@@ -272,7 +272,7 @@ constant time, except for the fact that all nodes should be traversed.
 
 ## Space Complexity
 
-_______| Worst ____________ | Average ____________ | Better ____________
+_______| Worst ____________ | Average ____________ | Best ____________
 Step 1 | n                  | log(n)               | 1
 O      | O(n)               | O(log(n))            | O(1)
 
