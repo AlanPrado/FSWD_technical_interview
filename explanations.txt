@@ -26,12 +26,18 @@ n['a'] <= m['a'] and n['b'] <= m['b']
 
 Thus, n is an anagram of m.
 
+## Complexity
+
+Worst case: m = n
+Average case: m = n / 2
+Average case: m = 1
+
 ## Time Complexity
 
 ____________| Worst _________| Average ________| Better _________
-Step 1      | n + n          | n + n / 2       | n + 1
+Step 1      | n + n          | n + n / 2       | 1 + 1
 Step 2      | 1              | 13              | 26
-O           | O(n)           | O(n)            | O(n)
+O           | O(n)           | O(n)            | O(1)
 
 
 Step 2: Comparison - Assuming that we have 26 letters at most, but the
@@ -57,7 +63,7 @@ To find the minimum spanning tree there are four classic algorithms:
     3 - Kruskal's algorithm
     4 - Reverse-delete algorithm
 
-I'll provide an example an short overview on how the algorithm works
+I'll provide an example an short overview on how the algorithm works.
 
 Given the graph:
    _____       _____
@@ -66,7 +72,6 @@ Given the graph:
 5        +-7-+         8
 |  _____      \_____   |
 +--|_C_|---4---|_D_|---+
-
 
 1 - Borůvka's algorithm
     For each node of the graph, traverse its edge with lower weight.
@@ -126,7 +131,7 @@ need instead of visiting all the edges at the beginning. This could save some
 memory especially if we are dealing with a huge complete graph.
 Also, it's not necessary to work with several trees using the Prim's algorithm.
 
-Thus, I implemented a variation of the Prim's algorithm.
+Thus, the Prim's algorithm was selected to be implemented.
 
 ## Time Complexity
 

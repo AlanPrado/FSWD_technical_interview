@@ -7,13 +7,13 @@ import sys
 class CharMap:
     """Index word by letters."""
 
-    def __init__(self, word, supressIndices=False):
+    def __init__(self, word, supressIndices=False, restrictLetters=None):
         """Initialize char map."""
         self.supressIndices = supressIndices
         self.charIndices = {}
-        self.__loadIndices__(word)
+        self.__loadIndices__(word, restrictLetters)
 
-    def __loadIndices__(self, word):
+    def __loadIndices__(self, word, restrictLetters):
         """
         Load indices from the word.
 
@@ -45,6 +45,9 @@ class CharMap:
                 self.charIndices[letter] = [index]
 
         def withoutIndices(letter, index):
+            if restrictLetters and letter not in restrictLetters:
+                return
+
             hasKey = letter in self.charIndices
             cnt = self.charIndices[letter] + 1 if hasKey else 1
             self.charIndices[letter] = cnt
@@ -97,8 +100,8 @@ def question1(s, t):
     return a boolean True or False.
     """
     if s and t:
-        map1 = CharMap(s, True)
         map2 = CharMap(t, True)
+        map1 = CharMap(s, True, map2.charIndices.keys())
 
         for k in map2.charIndices:
             if not map1.hasLetter(k) or map1.count(k) < map2.count(k):
