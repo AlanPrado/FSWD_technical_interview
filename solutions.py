@@ -124,7 +124,7 @@ def question2(a):
     if not a:
         return ""
 
-    class Word:
+    class Subset:
 
         def __init__(self, lowerBound, upperBound, letter):
             self.lowerBound = lowerBound
@@ -163,65 +163,61 @@ def question2(a):
         def __cmp__(self, other):
             return other.priority - self.priority
 
-    class WordGroups:
+    class Subsets:
 
         def __init__(self, word):
             """Initialize pair groups."""
             self.charMap = CharMap(word)
-            self.indexGroupSize = {}
-            self.numWordPerLetterPair = {}
-            self.words = Queue.PriorityQueue()
-            self.__setGroupsSize__()
+            self.subsetsSize = {}
+            self.subsetsAvailable = {}
+            self.subsets = Queue.PriorityQueue()
 
             for k in self.charMap.charIndices:
-                self.__calculateWordsFromLetterPair__(k)
+                self.subsetsSize[k] = self.charMap.count(k)
+                self.__calcSubsets__(k)
 
-        def __setGroupsSize__(self):
-            for k in self.charMap.charIndices:
-                self.indexGroupSize[k] = self.charMap.count(k)
+        def __decrementSubsetSize__(self, letter):
+            size = self.subsetsSize[letter]
+            self.subsetsSize[letter] = size - 1
 
-        def __decrementGroupSize__(self, letter):
-            size = self.indexGroupSize[letter]
-            self.indexGroupSize[letter] = size - 1
-
-            numberOfWords = self.charMap.count(letter) - size + 1
-            self.numWordPerLetterPair[letter] = numberOfWords
+            numberOfSubsets = self.charMap.count(letter) - size + 1
+            self.subsetsAvailable[letter] = numberOfSubsets
 
             return size
 
-        def __calculateWordsFromLetterPair__(self, letter):
-            newSize = self.__decrementGroupSize__(letter)
+        def __calcSubsets__(self, letter):
+            newSize = self.__decrementSubsetSize__(letter)
             values = self.charMap.values(letter)
 
             if newSize >= 2:
                 for i in range(self.charMap.count(letter) - newSize + 1):
                     lowerBound = values[i]
                     upperBound = values[i + newSize - 1]
-                    self.words.put(Word(lowerBound, upperBound, letter))
+                    self.subsets.put(Subset(lowerBound, upperBound, letter))
             else:
-                self.words.put(Word(values[0], values[0], letter))
+                self.subsets.put(Subset(values[0], values[0], letter))
 
-        def popWord(self):
-            word = self.words.get()
-            self.numWordPerLetterPair[word.letter] -= 1
-            return word
+        def popSubset(self):
+            subset = self.subsets.get()
+            self.subsetsAvailable[subset.letter] -= 1
+            return subset
 
-        def hasMoreWords(self):
-            return not self.words.empty()
+        def hasMoreSubsets(self):
+            return not self.subsets.empty()
 
-        def refreshWordList(self, letter):
-            if self.numWordPerLetterPair[letter] == 0:
-                self.__calculateWordsFromLetterPair__(letter)
+        def refresh(self, letter):
+            if self.subsetsAvailable[letter] == 0:
+                self.__calcSubsets__(letter)
 
-    groups = WordGroups(a)
+    subsets = Subsets(a)
 
-    while groups.hasMoreWords():
-        newWord = groups.popWord()
+    while subsets.hasMoreSubsets():
+        subset = subsets.popSubset()
 
-        if newWord.isPalindrome(a):
-            return newWord.getWord(a)
+        if subset.isPalindrome(a):
+            return subset.getWord(a)
 
-        groups.refreshWordList(newWord.letter)
+        subsets.refresh(subset.letter)
 
     return ""
 
