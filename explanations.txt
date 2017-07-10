@@ -28,9 +28,11 @@ Thus, n is an anagram of m.
 
 ## Complexity
 
-Worst case: m = n
-Average case: m = n / 2
-Average case: m = 1
+Consider that n is length m.
+
+Worst case: when len(n) = len(m)
+Average case: len(n) / 2 = len(m)
+Average case: len(n) = len(m) = 1
 
 ## Time Complexity
 
@@ -38,7 +40,6 @@ ____________| Worst _________| Average ________| Better _________
 Step 1      | n + n          | n + n / 2       | 1 + 1
 Step 2      | 1              | 13              | 26
 O           | O(n)           | O(n)            | O(1)
-
 
 Step 2: Comparison - Assuming that we have 26 letters at most, but the
 important aspect is that we have a constant amount letter depending on charset.
@@ -51,9 +52,23 @@ O           | O(1)           | O(1)            | O(1)
 
 # Question 2
 
+TODO
+
+## Complexity
+
+Consider that n is TODO.
+
+Worst case: TODO
+Average case: TODO
+Average case: TODO
+
 ## Time Complexity
 
+TODO
+
 ## Space Complexity
+
+TODO
 
 # Question 3
 
@@ -133,9 +148,21 @@ Also, it's not necessary to work with several trees using the Prim's algorithm.
 
 Thus, the Prim's algorithm was selected to be implemented.
 
+## Complexity
+
+Consider that n is TODO.
+
+Worst case: TODO
+Average case: TODO
+Average case: TODO
+
 ## Time Complexity
 
+TODO
+
 ## Space Complexity
+
+TODO
 
 ## External resources:
 - [Minimum spanning tree](https://en.wikipedia.org/wiki/Minimum_spanning_tree);
@@ -191,6 +218,14 @@ Find the ancestors of the node n1 without order. Then, perform the ancestor
 search of the node n2 with order and a stop condition. Finally, pop the last
 ancestor of n2.
 
+## Complexity
+
+Consider that n is TODO.
+
+Worst case: TODO
+Average case: TODO
+Average case: TODO
+
 ## Time Complexity
 
 ______________| Worst _______________ | Average ___________________________________ | Better _________
@@ -218,6 +253,8 @@ To accomplish this task we just need to append the node in an double-ended queue
 (deque) and navigate to the next node exists while it exists.
 
 ## Complexity
+
+Consider that n is number of nodes.
 
 Worst case: m = n
 Average case: m = log(n)
