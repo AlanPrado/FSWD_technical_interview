@@ -243,11 +243,6 @@ def question3(G):
     Vertices are represented as unique strings.
 
     The function definition should be question3(G)
-
-    External resources:
-        - https://en.wikipedia.org/wiki/Minimum_spanning_tree;
-        - https://en.wikipedia.org/wiki/Prim%27s_algorithm;
-        - https://www.youtube.com/watch?v=z1L3rMzG1_A.
     """
     if not (G and len(G)):
         return None

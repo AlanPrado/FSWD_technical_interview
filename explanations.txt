@@ -45,7 +45,100 @@ O           | O(1)           | O(1)            | O(1)
 
 # Question 2
 
+## Time Complexity
+
+## Space Complexity
+
 # Question 3
+
+To find the minimum spanning tree there are four classic algorithms:
+    1 - Borůvka's algorithm
+    2 - Prim's algorithm
+    3 - Kruskal's algorithm
+    4 - Reverse-delete algorithm
+
+I'll provide an example an short overview on how the algorithm works
+
+Given the graph:
+   _____       _____
++--|_A_|---1---|_B_|---+
+|       \              |
+5        +-7-+         8
+|  _____      \_____   |
++--|_C_|---4---|_D_|---+
+
+
+1 - Borůvka's algorithm
+    For each node of the graph, traverse its edge with lower weight.
+    This procedure can create several forests. Keep doing this until you have
+    just one tree.
+    If the both nodes of an edge belongs to the same forest, you can't traverse
+    them to avoid cycles.
+    Note that the discovering order depends on the nodes order in the graph.
+    Step 1 - A visit edge 1 - AB
+    Step 2 - B visit edge 1 - AB
+    Step 3 - C visit edge 4 - AB, CD
+    Step 4 - D visit edge 4 - AB, CD
+    Step 5 - AB visit edge 5 - ABCD
+
+2 - Prim's algorithm
+    Choose a random node as root node. From the root node, visit the next node
+    with lower edge weight. Keep doing this until you visit all the nodes.
+    If the node you are trying to visit was already visited, you can't traverse
+    it to avoid cycles.
+    Note that the discovering order depends on the previous node visited.
+    Step 1 - Root is C - C
+    Step 2 - From C visit D - CD
+    Step 3 - From CD visit A - CDA
+    Step 3 - From CDA visit B - CDAB
+
+3 - Kruskal's algorithm
+    Sort the edges by weight in ascending order. For each edge, visit the nodes
+    that were not visited. This procedure can create several forests. Keep
+    doing this until you have just one tree.
+    If the both nodes of an edge belongs to the same forest, you can't traverse
+    them to avoid cycles.
+    Note that the discovering order depends on the edges with lower weights.
+    Step 1 - Visit edge 1 - AB
+    Step 2 - Visit edge 4 - AB, CD
+    Step 3 - Visit edge 5 - ABCD
+
+4 - Reverse-delete algorithm
+    Sort the edges by weight in descending order. For each edge, verify if it's
+    a cycle, and erase it in positive case. After you visit all the edges, you
+    will have a MST.
+    Note that the discovering order depends on the edges with higher weights.
+    Step 1 - Verify if edge 8 is cycle - erase
+    Step 2 - Verify if edge 7 is cycle - erase
+    Step 3 - Verify if edge 5 is cycle - do nothing
+    Step 4 - Verify if edge 4 is cycle - do nothing
+    Step 5 - Verify if edge 1 is cycle - do nothing
+
+The graph is structured as an adjacency list and I would like to avoid handling
+the following issues:
+    * Indexing edges by weight in ascending order;
+    * Create a disjoint-set data structure to deal with several forests or some
+    variation of that.
+
+I could create a priority queue to index the edges by weight, but with an
+adjacency list, using the Prim's algorithm, I can visit the edges only when I
+need instead of visiting all the edges at the beginning. This could save some
+memory especially if we are dealing with a huge complete graph.
+Also, it's not necessary to work with several trees using the Prim's algorithm.
+
+Thus, I implemented a variation of the Prim's algorithm.
+
+## Time Complexity
+
+## Space Complexity
+
+## External resources:
+- [Minimum spanning tree](https://en.wikipedia.org/wiki/Minimum_spanning_tree);
+- [Borůvka's algorithm](https://en.wikipedia.org/wiki/Bor%C5%AFvka%27s_algorithm);
+- [Prim's algorithm](https://en.wikipedia.org/wiki/Prim%27s_algorithm);
+- [Kruskal's algorithm](https://en.wikipedia.org/wiki/Kruskal%27s_algorithm);
+- [Reverse-delete algorithm](https://en.wikipedia.org/wiki/Reverse-delete_algorithm);
+- [Prim's algorithm video](https://www.youtube.com/watch?v=z1L3rMzG1_A).
 
 # Question 4
 
