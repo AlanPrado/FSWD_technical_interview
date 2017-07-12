@@ -1,3 +1,4 @@
+import math
 import unittest
 import Queue
 from collections import deque
@@ -139,20 +140,20 @@ def question2(a):
 
             return self.word
 
-        def isPalindrome(self, completeWord):
+        def isPalindrome(self, completeWord, reverseWord):
             """
             Check if the word is a palindrome.
 
             Return True if is a palindrome and False if it's not.
             """
             word = self.getWord(completeWord)
-            lenWord = len(word)
+            halfLen = int(math.ceil(len(word) / 2))
+            rBegin = -self.upperBound - 1
 
-            for index in range(lenWord / 2):
-                if word[index] != word[lenWord - index - 1]:
-                    return False
+            if word[0: halfLen] == reverseWord[rBegin: rBegin + halfLen]:
+                return True
 
-            return True
+            return False
 
         def __repr__(self):
             return '(%s, %s, %s, %s)' % (self.lowerBound,
@@ -169,23 +170,23 @@ def question2(a):
             """Initialize pair groups."""
             self.charMap = CharMap(word)
             self.subsetsSize = {}
-            self.subsetsAvailable = {}
+            self.numSubsetsPerLetterPair = {}
             self.subsets = Queue.PriorityQueue()
 
             for k in self.charMap.charIndices:
                 self.subsetsSize[k] = self.charMap.count(k)
-                self.__calcSubsets__(k)
+                self.__createSubsets__(k)
 
         def __decrementSubsetSize__(self, letter):
             size = self.subsetsSize[letter]
             self.subsetsSize[letter] = size - 1
 
             numberOfSubsets = self.charMap.count(letter) - size + 1
-            self.subsetsAvailable[letter] = numberOfSubsets
+            self.numSubsetsPerLetterPair[letter] = numberOfSubsets
 
             return size
 
-        def __calcSubsets__(self, letter):
+        def __createSubsets__(self, letter):
             newSize = self.__decrementSubsetSize__(letter)
             values = self.charMap.values(letter)
 
@@ -199,25 +200,26 @@ def question2(a):
 
         def popSubset(self):
             subset = self.subsets.get()
-            self.subsetsAvailable[subset.letter] -= 1
+            self.numSubsetsPerLetterPair[subset.letter] -= 1
             return subset
 
         def hasMoreSubsets(self):
             return not self.subsets.empty()
 
-        def refresh(self, letter):
-            if self.subsetsAvailable[letter] == 0:
-                self.__calcSubsets__(letter)
+        def update(self, letter):
+            if self.numSubsetsPerLetterPair[letter] == 0:
+                self.__createSubsets__(letter)
 
     subsets = Subsets(a)
+    revWord = ''.join([a[len(a) - count] for count in xrange(1, len(a) + 1)])
 
     while subsets.hasMoreSubsets():
-        subset = subsets.popSubset()
+        newWord = subsets.popSubset()
 
-        if subset.isPalindrome(a):
-            return subset.getWord(a)
+        if newWord.isPalindrome(a, revWord):
+            return newWord.getWord(a)
 
-        subsets.refresh(subset.letter)
+        subsets.update(newWord.letter)
 
     return ""
 
@@ -380,7 +382,7 @@ def question4(T, r, n1, n2):
             if T[row][column] == 1:
                 return row
 
-        raise Exception("Node %s does not make part of the tree" % column)
+        raise Exception("Node %s does not belong to the tree" % column)
 
     def findAncestors(startNode, stopCallBack, unordered=False):
         """Find a path to root or if stopCallBack is evalute to True."""
