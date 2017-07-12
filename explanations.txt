@@ -126,16 +126,26 @@ Step 2      | n                                   | n               | 1
 
 ____________| Worst ____________________________________| Average _______________________________| Best _________
 Step 1      | n                                         | n                                      | 1
-Step 3      | n + 3 * ((n / 3) * ((n / 3) - 1) / 2 + 1) | n + sum(for each letter k C(k, 2) + 1) | 1 + 1
+Step 3      | n + 3 * ((n / 3) * ((n / 3) - 1) / 2 + 1) | n + sum(for each k in ul, C(k, 2) + 1) | 1 + 1
 Step 4      | n                                         | k                                      | 1
 Step 5      | 3 * (Step 2)                              | 3 * (Step 2)                           | 3 * (Step 2)
 O           | O(n^2)                                    | O(n)                                   | O(1)
 
-C(k, 2) = k! / 2! * (k − 2)! where k is number of indices of a single letter
+ul: unique letters
+C(k, 2) = k! / (2! * (k − 2)!), where k is number of indices of a single letter = constant
 
 ## Space Complexity
 
-TODO
+________________________________| Worst ___________________| Average ________________________________| Best _________
+Subsets.charMap                 | 3 * (n / 3 + 1)          | sum(for each ul, len(k))                | 2 * (1 + 1)
+Subsets.subsetsSize             | 3 * 2                    | count(ul) * 2                           | 2 * 1
+Subsets.numSubsetsPerLetterPair | 3 * 2                    | count(ul) * 2                           | 2 * 1
+Subsets.self.subsets            | C(n / 3, 2) * 3 * Subset | sum(for each k in ul, C(k, 2)) * Subset | 2 * Subset
+O                               | O(n)                     | O(n)                                    | O(1)
+
+3 * C(n / 3, 2) = 3 * (n / 3)! / (2! * (n / 3 - 2)!) = constant
+sum(for each k in ul, C(k, 2)) = constant
+Subset = constant
 
 # Question 3
 

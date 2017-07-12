@@ -79,11 +79,15 @@ class CharMap:
 
 
 class Node(object):
+    """Node representation."""
+
     def __init__(self, data):
+        """Construct a node with a data value."""
         self.data = data
         self.next = None
 
     def __repr__(self):
+        """Override the string representation."""
         return '(%s)' % (self.data)
 
 
@@ -448,6 +452,7 @@ def question5(ll, m):
 
 
 class TestQuestions(unittest.TestCase):
+    """Run the tests cases for each question."""
 
     def test_question1_edge_cases(self):
         """Test question 1 - edge cases."""
