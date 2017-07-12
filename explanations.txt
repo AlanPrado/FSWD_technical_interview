@@ -41,7 +41,7 @@ Step 1      | n + n          | n + n / 2       | 1 + 1
 Step 2      | 1              | 13              | 26
 O           | O(n)           | O(n)            | O(1)
 
-Step 2: Comparison - Assuming that we have 26 letters at most, but the
+* Step 2: Comparison - Assuming that we have 26 letters at most, but the
 important aspect is that we have a constant amount letter depending on charset.
 
 ## Space Complexity
@@ -58,38 +58,80 @@ of the word is a palindrome.
 Given the word "house", check if it a palindrome
 
 Evidently, it's possible to verify that "house" is not a palindrome for the
-simple fact that "h" is different than "e". And longest palindrome that the word
-"house" has only a single letter.
+simple fact that "h" is different than "e". The longest palindrome in the word
+"house" has only a single letter. The first part half of the palindrome is like
+a mirror of the second half of the palindrome.
 
 These observations are simple but helps to reduce the amount of checkings in a
 significant way once that we only need to verify palindromes between pairs of
 equal letters. If we don't have any equal letters, the longest palindrome should
-have only one letter.
+have only one letter. Also, if the word is reversed, the string hash function
+can helps with comparison between the first half and the second half of the
+palindrome.
 
 Algorithm:
 
-1 - Store the index of each letter
-2 - For each letter:
+1 - Reverse the word
+2 - Store the index of each letter
+3 - For each letter:
     2.1 - Verify if the number of indices is equal to 1, create a subset of
           the letter l
     2.2 - Otherwise, creates a subset through combination of two indices
-3 - Sort the subsets in descending by *priority
-4 - For each subset:
-    4.1 - If the subset is a palindrome, return it
+4 - Sort the subsets in descending by *priority
+5 - For each subset:
+    4.1 - If the subset is a palindrome, return the word
 
 *priority = higher index - lower index
 
+Example:
+
+Given the word "banana",
+
+1 - Reverse the word
+    "ananab"
+
+2 - Index the word:
+    {
+        "b": [0],
+        "a": [1, 3, 5],
+        "n": [2, 4]
+    }
+
+3 - Create subsets
+    subsets = [(0, 0), (1, 5), (1, 3), (3, 5), (1, 1), (2, 4), (2, 2)]
+
+4 - Sort subsets
+    subsets = [(1, 5), (1, 3), (2, 4), (3, 5), (0, 0), (1, 1), (2, 2)]
+
+5 - Check isPalindrome(word[1, 5]), then return "anana"
+
+Improvements made in the algorithm:
+    * Defer the subset calculation to be lazy calculated at step 4 in order to
+    save memory and processing;
+    * Skip the sort step using a priority queue to store the subsets and sort
+    them in insertion time.
+
 ## Complexity
 
-Consider that n is TODO.
+Consider that n is number of letters of the word "a".
 
-Worst case: TODO
-Average case: TODO
-Average case: TODO
+Worst case: lots of repeated letters, but none palindromes like "abcabcabcabcabcabc"
+Average case: some repeated letters, like "some repeated letters"
+Best case: one single letter, "a"
 
 ## Time Complexity
 
-TODO
+____________| Worst ______________________________| Average ________| Best _________
+Step 2      | n                                   | n               | 1
+
+____________| Worst ____________________________________| Average _______________________________| Best _________
+Step 1      | n                                         | n                                      | 1
+Step 3      | n + 3 * ((n / 3) * ((n / 3) - 1) / 2 + 1) | n + sum(for each letter k C(k, 2) + 1) | 1 + 1
+Step 4      | n                                         | k                                      | 1
+Step 5      | 3 * (Step 2)                              | 3 * (Step 2)                           | 3 * (Step 2)
+O           | O(n^2)                                    | O(n)                                   | O(1)
+
+C(k, 2) = k! / 2! * (k − 2)! where k is number of indices of a single letter
 
 ## Space Complexity
 
@@ -261,10 +303,10 @@ O             | O(n^2)                | O(n^2)                                  
 ## Space Complexity
 
 ________________| Worst ___________ | Average _____________ | Best _________
-availableNodes  | n                 | n                     | n
+availableNodes  | n                 | n                     | 3
 ancestorN1      | n - 1             | floor(n / 2)          | 1
 ancestorN2      | 1                 | floor(n / 2)          | 1
-O               | O(n)              | O(n)                  | O(n)
+O               | O(n)              | O(n)                  | O(1)
 
 # Question 5
 
@@ -281,15 +323,15 @@ To accomplish this task we just need to append the node in an double-ended queue
 
 Consider that n is number of nodes.
 
-Worst case: m = n
-Average case: m = log(n)
-Best case: m = 1
+Worst case: m = 1
+Average case: m = n / 2
+Best case: m = n and n = 1
 
 ## Time Complexity
 
-_______| Worst ____________ | Average ____________ | Best ____________
-Step 1 | n * n + 1          | n * (log(n) * 2) + 1 | 1 + 1
-O      | O(n^2)             | O(n * log(n))        | O(1)
+_______| Worst ____________ | Average _________________ | Best ____________
+Step 1 | n * 3 + 1          | n + 2 * n / 2 + 1         | 1 + 1
+O      | O(n)               | O(n)                      | O(1)
 
 Step 1: As long as "append", "popleft" and "pop" are performed in constant time
 (https://wiki.python.org/moin/TimeComplexity), this step would happen in

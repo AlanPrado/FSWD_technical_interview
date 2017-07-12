@@ -211,6 +211,7 @@ def question2(a):
                 self.__createSubsets__(letter)
 
     subsets = Subsets(a)
+    # reverse the word
     revWord = ''.join([a[len(a) - count] for count in xrange(1, len(a) + 1)])
 
     while subsets.hasMoreSubsets():
@@ -609,6 +610,16 @@ class TestQuestions(unittest.TestCase):
                                     0,
                                     5,
                                     6), 4)
+        self.assertEquals(question4([[0, 1, 0, 0, 0, 0, 0],
+                                     [0, 0, 1, 0, 0, 0, 0],
+                                     [0, 0, 0, 1, 0, 0, 0],
+                                     [0, 0, 0, 0, 1, 0, 0],
+                                     [0, 0, 0, 0, 0, 1, 0],
+                                     [0, 0, 0, 0, 0, 0, 1],
+                                     [0, 0, 0, 0, 0, 0, 0]],
+                                    0,
+                                    0,
+                                    6), 0)
 
     def test_question5_edge_cases(self):
         """Test question 5 - edge cases."""
