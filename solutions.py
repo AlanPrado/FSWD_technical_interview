@@ -308,7 +308,7 @@ def question3(G):
             parents[otherVertex] = vertex
             updateWeight(otherVertex, weight)
 
-    def init():
+    def initialize():
         # set all parents to None and weights to sys.maxint
         for vertex in G:
             parents[vertex] = None
@@ -319,7 +319,7 @@ def question3(G):
             updateWeight(vertex, 0)
             break
 
-    init()
+    initialize()
 
     while len(Q) > 0:
         # find the nearest node

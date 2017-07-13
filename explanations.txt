@@ -220,26 +220,38 @@ the following issues:
 I could create a priority queue to index the edges by weight, but with an
 adjacency list, using the Prim's algorithm, I can visit the edges only when I
 need instead of visiting all the edges at the beginning. This could save some
-memory especially if we are dealing with a huge complete graph.
+memory, especially if we are dealing with a huge complete graph.
 Also, it's not necessary to work with several trees using the Prim's algorithm.
 
 Thus, the Prim's algorithm was selected to be implemented.
 
 ## Complexity
 
-Consider that n is TODO.
+Consider that n is number of vertex times number of edges(e).
 
-Worst case: TODO
-Average case: TODO
-Best case: TODO
+Worst case: v * e = n, e^2 = v (complete graph)
+Average case: v * e = n, where e^2 < v
+Best case: v = 2, e = 1
 
 ## Time Complexity
 
-TODO
+________________| Worst________________| Average __________________| Best _________
+initialize      | 6v + 1               | 6v + 1                    | 2 + 1
+findMinWeight   | 10v                  | 10v                       | 10 * 2
+visitNextVertex | v * e                | v * e                     | 2
+addAdjList      | 2v                   | 2v                        | 2 * 2
+O               | O(n)                 | O(n)                      | O(1)
 
 ## Space Complexity
 
-TODO
+___________________| Worst_____| Average ______| Best _________
+parents            | 2v        | 2v            | 2 * 2
+weightPerVertex    | 2e        | 2e            | 2 * 1
+verticesPerWeight  | 2v        | 2v            | 2 * 2
+weights            | 2v        | 2v            | 2 * 1
+F                  | v         | v             | 2
+Q                  | 2*2v      | 2*2v          | 2 * 2
+O                  | O(n)      | O(n)          | O(1)
 
 ## External resources:
 - [Minimum spanning tree](https://en.wikipedia.org/wiki/Minimum_spanning_tree);
