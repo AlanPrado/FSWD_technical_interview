@@ -1,7 +1,6 @@
 import math
 import unittest
 import Queue
-from collections import deque
 import sys
 
 
@@ -441,14 +440,41 @@ def question5(ll, m):
     if not (ll and m):
         return None
 
-    dq = deque(maxlen=m)
-    nextNode = ll
+    class LinkedList:
+        def __init__(self, ll):
+            self.firstNode = ll
+            self.currentNode = self.firstNode
 
-    while nextNode:
-        dq.append(nextNode)
-        nextNode = nextNode.next
+        def hasNext(self):
+            return self.currentNode
 
-    return dq.popleft().data if len(dq) >= m else None
+        def next(self):
+            self.currentNode = self.currentNode.next
+
+        def reset(self):
+            self.currentNode = self.firstNode
+
+        def getNode(self, mth):
+            counter = self.length() - mth
+
+            while counter > 0:
+                counter -= 1
+                self.next()
+
+            return None if counter < 0 else self.currentNode.data
+
+        def length(self):
+            length = 0
+
+            while self.hasNext():
+                self.next()
+                length += 1
+
+            self.reset()
+
+            return length
+
+    return LinkedList(ll).getNode(m)
 
 
 class TestQuestions(unittest.TestCase):
